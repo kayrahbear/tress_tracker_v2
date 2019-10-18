@@ -17,15 +17,12 @@ class EachWigSpider(scrapy.Spider):
     def parse(self, response):
         print("procesing:"+response.url)
 
-        wig_name = response.css('.product-title-main::text').get()
-        brand = response.css('.bh_vendor_name::text').get()
-        price = response.css('.product-price::text').get()
-        # hair_type = response.xpath("//tr[contains(.,'Hair Type:')]//td[2]").get()
-
         scraped_wig = {
-            'wig_name': wig_name,
-            'brand': brand,
-            'price': price
+            'scraped_url': response.url,
+            'wig_name': response.xpath("//h1[contains(@class,'product-title-main')]/text()").get(),
+            'brand': response.xpath("//h2[@id='bh_vendor_name']/text()").get(),
+            'price': response.xpath("//span[contains(@class,'product-price')]/text()").get(),
+            'hair_type': response.xpath("//tr[contains(.,'Hair Type:')]//td[2]//text()").get()
         }
 
         yield scraped_wig
