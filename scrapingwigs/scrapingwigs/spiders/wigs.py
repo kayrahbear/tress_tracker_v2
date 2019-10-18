@@ -2,9 +2,8 @@
 import scrapy
 
 
-class WigsSpider(scrapy.Spider):
+class WigLinkSpider(scrapy.Spider):
     name = 'wigs'
-    allowed_domains = ['wigs.com/']
     start_urls = ['https://www.wigs.com/collections/wigs.html/']
 
     def parse(self, response):
@@ -16,3 +15,21 @@ class WigsSpider(scrapy.Spider):
             yield {
                 'link': wig.css(link_selector).extract_first(),
             }
+
+        next_page = response.xpath("//a[contains(.,'>')]/@href").extract_first()
+
+        yield {
+            "-------> next_page": next_page
+        }
+
+        if next_page:
+            yield scrapy.Request(
+                response.urljoin(next_page),
+                callback = self.parse
+            )
+            
+            
+            
+            
+            
+            
