@@ -11,11 +11,13 @@ class EachWigSpider(scrapy.Spider):
             yield scrapy.Request(f"https://www.wigs.com{item['link']}")
 
 
-    custom_settings={ 'FEED_URI': "each_wig.json",
-                'FEED_FORMAT': 'json'}
+    custom_settings= { 
+        'FEED_URI': "each_wig.json",
+        'FEED_FORMAT': 'json'
+    }
 
     def parse(self, response):
-        print("procesing:"+response.url)
+        print(f"procesing: {response.url}")
 
         scraped_wig = {
             'scraped_url': response.url,
