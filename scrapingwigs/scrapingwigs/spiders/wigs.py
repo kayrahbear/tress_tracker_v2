@@ -6,6 +6,9 @@ class WigLinkSpider(scrapy.Spider):
     name = 'wigs'
     start_urls = ['https://www.wigs.com/collections/wigs.html/']
 
+    custom_settings={ 'FEED_URI': "wiglinks_%(time)s.json",
+                    'FEED_FORMAT': 'json'}
+
     def parse(self, response):
         wig_selector = '.product-index'
 
@@ -17,10 +20,6 @@ class WigLinkSpider(scrapy.Spider):
             }
 
         next_page = response.xpath("//a[contains(.,'>')]/@href").extract_first()
-
-        yield {
-            "-------> next_page": next_page
-        }
 
         if next_page:
             yield scrapy.Request(
