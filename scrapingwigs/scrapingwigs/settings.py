@@ -17,6 +17,14 @@ NEWSPIDER_MODULE = 'scrapingwigs.spiders'
 FEED_FORMAT="csv"
 FEED_URI="wig.csv"
 
+SPLASH_URL = 'http://192.168.59.103:8050' 
+
+DOWNLOADER_MIDDLEWARES = {
+    'scrapyjs.SplashMiddleware': 725,
+}
+
+DUPEFILTER_CLASS = 'scrapyjs.SplashAwareDupeFilter'
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'scrapingwigs (+http://www.yourdomain.com)'

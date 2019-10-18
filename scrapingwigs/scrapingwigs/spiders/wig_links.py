@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
 import scrapy
+from selenium import webdriver
 
 
 class WigLinkSpider(scrapy.Spider):
-    name = 'wig_links'
+    name = 'WigLinks'
     start_urls = ['https://www.namebrandwigs.com/collections/all-items?_=pf&pf_pt_product_type=wig&pf_pt_product_type=Enhancer']
 
-    custom_settings={ 'FEED_URI': "wiglinks_nbw.json",
+    custom_settings={'FEED_URI': "wiglinks_nbw.json",
                     'FEED_FORMAT': 'json'}
 
     def parse(self, response):
-        wig_selector = '.grid__item'
+        wigs_on_page = response.css('.grid__item').getall()
 
-        for wig in response.css(wig_selector):
+        for wig in wigs_on_page:
             link_selector = 'a::attr(href)'
 
             yield {
