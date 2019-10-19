@@ -2,7 +2,7 @@ import json
 import scrapy
 
 class EachWigSpider(scrapy.Spider):
-    name = "EachWigSpider"
+    name = "EachWig"
 
     def start_requests(self):
         with open('wiglinks.json', 'r') as f:
@@ -25,12 +25,12 @@ class EachWigSpider(scrapy.Spider):
 
         data_table_rows = response.xpath("//table[contains(@class,'data-table')]//tbody//tr//td[contains(@class,'last')]").getall()
 
-        for row in data_table_rows:
-            hair_type = row[3],
-            cap_size = row[7]
-            cap_construction = row[]
-            sku = 
-            length = 
+        # for row in data_table_rows:
+        #     hair_type = row[3],
+        #     cap_size = row[7]
+        #     cap_construction = row[]
+        #     sku = 
+        #     length = 
 
 
 
