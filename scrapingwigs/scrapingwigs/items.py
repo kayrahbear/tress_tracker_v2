@@ -13,6 +13,7 @@ class WigLink(scrapy.Item):
     # name = scrapy.Field()
     link = scrapy.Field()
 
+
 class Wig(scrapy.Item):
     wig_id = scrapy.Field()
     wig_name = scrapy.Field()
