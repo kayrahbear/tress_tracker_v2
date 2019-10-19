@@ -1,6 +1,4 @@
 import json
-
-import js2xml
 import scrapy
 
 from scrapingwigs.items import Wig
@@ -12,13 +10,17 @@ class EachWigSpider(scrapy.Spider):
     def start_requests(self):
         with open("wiglinks_nbw.json", "r") as f:
             data = json.loads(f.read())
-        # for item in data:
-        yield scrapy.Request(f"https://www.namebrandwigs.com{data[1]['link']}")
+        for item in data[:6]:
+            yield scrapy.Request(f"https://www.namebrandwigs.com{item['link']}")
 
     custom_settings = {"FEED_URI": "each_wig.json", "FEED_FORMAT": "json"}
 
     def parse(self, response):
         print(f"procesing: {response.url}")
+
+        # from scrapy.shell import inspect_response
+
+        # inspect_response(response, self)
 
         product_json = response.xpath(
             '//script[@type="application/json"]//text()'
@@ -30,10 +32,20 @@ class EachWigSpider(scrapy.Spider):
         colors = []
         price = []
 
+        for variant in product_tree["variants"]:
+            color_swatch_tuple = (variant["option1"], variant["featured_image"]["src"])
+            colors.append(color_swatch_tuple)
+            price.append(variant["price"])
+
         scraped_wig["wig_id"] = product_tree["handle"]
         scraped_wig["wig_name"] = product_tree["title"]
         scraped_wig["brand"] = product_tree["vendor"]
+        scraped_wig["price"] = price
         scraped_wig["main_image"] = f"http:{product_tree['featured_image']}"
-        scraped_wig["cap_size"] = product_tree["variants"][0]["option2"]
+        scraped_wig["colors"] = colors
+        scraped_wig["hair_type"] = product_tree["tags"]
+        scraped_wig["length"] = product_tree["description"]
+        scraped_wig["description"] = product_tree["description"]
+        scraped_wig["cap_features"] = product_tree["tags"]
 
         yield scraped_wig
