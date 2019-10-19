@@ -1,14 +1,17 @@
 import json
 import scrapy
+import js2xml
+
+from scrapingwigs.scrapingwigs.items import Wig 
 
 class EachWigSpider(scrapy.Spider):
     name = "EachWig"
 
     def start_requests(self):
-        with open('wiglinks.json', 'r') as f:
+        with open('wiglinks_nbw.json', 'r') as f:
             data = json.loads(f.read())
-        for item in data:
-            yield scrapy.Request(f"https://www.wigs.com{item['link']}")
+        # for item in data:
+        yield scrapy.Request(f"https://www.namebrandwigs.com{data[0]['link']}")
 
 
     custom_settings= { 
@@ -18,29 +21,25 @@ class EachWigSpider(scrapy.Spider):
 
     def parse(self, response):
         print(f"procesing: {response.url}")
+        
+        product_json = response.xpath('//script[@type="application/json"]//text()').getall()[-1]
 
-        wig_name = response.xpath("//h1[contains(@class,'product-title-main')]/text()").get() 
-        brand = response.xpath("//h2[@id='bh_vendor_name']/text()").get()
-        price = response.xpath("//span[contains(@class,'product-price')]/text()").get()
+        product_tree = json.loads(product_json)
 
-        data_table_rows = response.xpath("//table[contains(@class,'data-table')]//tbody//tr//td[contains(@class,'last')]").getall()
+        scraped_wig = Wig()
+        colors = []
+        price = []
 
-        # for row in data_table_rows:
-        #     hair_type = row[3],
-        #     cap_size = row[7]
-        #     cap_construction = row[]
-        #     sku = 
-        #     length = 
-
-
-
-
-        scraped_wig = {
-            'scraped_url': response.url,
-            'wig_name': wig_name,
-            'brand': brand,
-            'price': price,
-            'hair_type': response.xpath("//tr[contains(.,'Hair Type:')]//td[2]//text()").get()
-        }
-
+        scraped_wig["wig_id"] = product_tree["handle"]
+        scraped_wig["wig_name"] = product_tree["title"]
+        scraped_wig["brand"] = product_tree["vendor"]
+        scraped_wig["main_image"] = f"http:{product_tree['featured_image']}"
+        scraped_wig["cap_size"] = product_tree["variants"][0]["option2"]
+        
         yield scraped_wig
+            
+            
+
+
+
+
