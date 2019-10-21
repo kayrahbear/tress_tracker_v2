@@ -21,7 +21,4 @@ class Wig(scrapy.Item):
     price = scrapy.Field()
     main_image = scrapy.Field()
     colors = scrapy.Field()
-    hair_type = scrapy.Field()
-    length = scrapy.Field()
-    description = scrapy.Field()
-    cap_features = scrapy.Field()
+    tags = scrapy.Field()

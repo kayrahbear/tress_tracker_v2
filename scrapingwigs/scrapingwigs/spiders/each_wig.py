@@ -10,7 +10,7 @@ class EachWigSpider(scrapy.Spider):
     def start_requests(self):
         with open("wiglinks_nbw.json", "r") as f:
             data = json.loads(f.read())
-        for item in data[:10]:
+        for item in data:
             yield scrapy.Request(f"https://www.namebrandwigs.com{item['link']}")
 
     custom_settings = {"FEED_URI": "each_wig.csv", "FEED_FORMAT": "csv"}
@@ -43,9 +43,6 @@ class EachWigSpider(scrapy.Spider):
         scraped_wig["price"] = price
         scraped_wig["main_image"] = f"http:{product_tree['featured_image']}"
         scraped_wig["colors"] = colors
-        scraped_wig["hair_type"] = product_tree["tags"]
-        scraped_wig["length"] = product_tree["description"]
-        scraped_wig["description"] = product_tree["description"]
-        scraped_wig["cap_features"] = product_tree["tags"]
+        scraped_wig["tags"] = product_tree["tags"]
 
         yield scraped_wig
