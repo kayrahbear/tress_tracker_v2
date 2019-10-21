@@ -43,4 +43,4 @@ ALTER TABLE "wigs" ADD FOREIGN KEY ("color_id") REFERENCES "colors" ("id");
 
 ALTER TABLE "user_wigs" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
-ALTER TABLE "wigs" ADD FOREIGN KEY ("id") REFERENCES "user_wigs" ("wig_id");
+ALTER TABLE "user_wigs" ADD FOREIGN KEY ("wig_id") REFERENCES "wigs" ("id");
