@@ -29,6 +29,6 @@ class ScrapingwigsPipeline(object):
         Wig['price'] = format_price
         Wig['wig_name'] = only_wig_name
         Wig['color_name'] = color_name
-        Wig['brand_name'] = brand_name
+        Wig['brand'] = brand_name
 
         return Wig
