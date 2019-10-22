@@ -24,7 +24,7 @@ class ScrapingwigsPipeline(object):
         color_name = Wig['color_name'].split(' +$')[0]
 
         #ughh why do some of the brands have SALE on the end?!
-        brand_name = Wig['brand'].splt(" S")[0]
+        brand_name = Wig['brand'].split(" S")[0]
 
         Wig['price'] = format_price
         Wig['wig_name'] = only_wig_name
