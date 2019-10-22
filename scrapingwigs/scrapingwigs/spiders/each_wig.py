@@ -31,7 +31,7 @@ class EachWigSpider(scrapy.Spider):
         scraped_wig = Wig()
 
         for variant in product_tree["variants"]:
-            scraped_wig["wig_url"] = response.url
+            scraped_wig["wig_id"] = product_tree["handle"]
             scraped_wig["wig_name"] = product_tree["title"]
             scraped_wig["brand"] = product_tree["vendor"]
             scraped_wig["price"] = variant["price"]

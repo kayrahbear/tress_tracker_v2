@@ -74,8 +74,14 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'scrapingwigs.pipelines.ScrapingwigsPipeline': 300,
+    'scrapingwigs.pipelines.ScrapingwigsPipeline': 300,
+    'scrapingwigs.pipelines.MongoDBPipeline': 500
 }
+
+MONGODB_SERVER = "localhost"
+MONGODB_PORT = 27017
+MONGODB_DB = "tresstracker"
+MONGODB_COLLECTION = "wigs"
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

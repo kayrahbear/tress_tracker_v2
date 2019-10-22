@@ -15,7 +15,7 @@ class WigLink(scrapy.Item):
 
 
 class Wig(scrapy.Item):
-    wig_url = scrapy.Field()
+    wig_id = scrapy.Field()
     wig_name = scrapy.Field()
     brand = scrapy.Field()
     price = scrapy.Field()
