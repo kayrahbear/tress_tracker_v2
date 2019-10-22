@@ -18,7 +18,7 @@ class ScrapingwigsPipeline(object):
         try:
             only_wig_name = re.search(' - (.+?) #', wig_name_str).group(1)
         except AttributeError:
-            only_wig_name = ""
+            only_wig_name = wig_name_str
         
         #get those price marks out of the color name
         color_name = Wig['color_name'].split(' +$')[0]
